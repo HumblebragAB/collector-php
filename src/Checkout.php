@@ -96,7 +96,8 @@ class Checkout extends CollectorObject
 
 	public function getCart()
 	{
-		return $this->_values['cart'];
+		$cart = $this->_values['cart'];
+		return $cart instanceof Cart ? $cart : Cart::create($cart);
 	}
 
 	public function fees($fees)
