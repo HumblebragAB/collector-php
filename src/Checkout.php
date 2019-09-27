@@ -36,10 +36,32 @@ class Checkout extends CollectorObject
 	protected function __construct($values)
 	{
 		parent::__construct($values);
-
-		$this->_values['cart'] = Cart::create();
 	}
-	
+
+	public function send()
+	{
+		$response = Request::get()->request('/checkout', 'POST', $this);
+
+		$data = json_decode($response->getBody()->getContents(), true);
+
+		$isError = $data['error'] !== null;
+
+		if($isError) {
+			return [$response, $data['error'], true];
+		}
+
+		$this->publicToken = $data['data']['publicToken'];
+
+		return [$response, $data['data'], $isError];
+	}
+
+	public function info($storeId, $privateId)
+	{
+		$response = Request::get()->request('/merchants/'.$storeId.'/checkouts/'.$privateId);
+
+		return $response;
+	}
+
 	public function scriptTag($publicToken = null)
 	{
 		$publicToken = $publicToken ?? $this->publicToken;
