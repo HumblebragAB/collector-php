@@ -33,6 +33,7 @@ use Humblebrag\Collector\Fees;
 class Checkout extends CollectorObject
 {
 	public $publicToken;
+	public $privateId;
 
 	public function send()
 	{
@@ -74,6 +75,20 @@ class Checkout extends CollectorObject
 		$src = Collector::$frontendUrl . '/collector-checkout-loader.js';
 
 		return "<script src='$src' data-token='$publicToken'>";
+	}
+
+	public function publicToken($publicToken)
+	{
+		$this->publicToken = $publicToken;
+
+		return $this;
+	}
+
+	public function privateId($privateId)
+	{
+		$this->privateId = $privateId;
+
+		return $this;
 	}
 
 	public function storeId($storeId)
