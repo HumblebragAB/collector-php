@@ -15,7 +15,7 @@ class Collector
 
 	public static $sharedAccessKey;
 	public static $username;
-	public static $backendUrl = 'https://webhook.site/f4dbf4fe-5274-4b69-9952-0fe4ab39a317';
+	public static $backendUrl = Collector::TESTING_BACKEND;
 	public static $frontendUrl = Collector::TESTING_BACKEND;
 
 	public static function setSharedAccessKey($key)
