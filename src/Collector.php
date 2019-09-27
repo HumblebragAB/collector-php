@@ -18,22 +18,6 @@ class Collector
 	public static $backendUrl = 'https://webhook.site/f4dbf4fe-5274-4b69-9952-0fe4ab39a317';
 	public static $frontendUrl = Collector::TESTING_BACKEND;
 
-
-	public static function branding()
-	{
-		return new class {
-			function standard()
-			{
-				return 'https://checkout.collector.se/resources/images/sv-SE/collector-checkout-badge-color.svg';
-			}
-
-			function dark()
-			{
-				return 'https://checkout.collector.se/resources/images/sv-SE/collector-checkout-badge-white.svg';
-			}
-		};
-	}
-
 	public static function setSharedAccessKey($key)
 	{
 		self::$sharedAccessKey = $key;

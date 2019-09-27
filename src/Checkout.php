@@ -33,11 +33,6 @@ class Checkout extends CollectorObject
 {
 	public $publicToken;
 
-	protected function __construct($values)
-	{
-		parent::__construct($values);
-	}
-
 	public function send()
 	{
 		$response = Request::get()->request('/checkout', 'POST', $this);

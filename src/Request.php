@@ -51,8 +51,6 @@ class Request
 
 		$options['headers']['Authorization'] = $sharedKey;
 
-		$path = '';
-
 		return $this->client->request($method, $path, $options + ['json' => $body]);
 	}
 
