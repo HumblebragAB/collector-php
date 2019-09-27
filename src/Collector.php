@@ -16,7 +16,7 @@ class Collector
 	public static $sharedAccessKey;
 	public static $username;
 	public static $backendUrl = Collector::TESTING_BACKEND;
-	public static $frontendUrl = Collector::TESTING_BACKEND;
+	public static $frontendUrl = Collector::TESTING_FRONTEND;
 
 	public static function setSharedAccessKey($key)
 	{
