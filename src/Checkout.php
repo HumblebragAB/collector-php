@@ -2,6 +2,7 @@
 
 namespace Humblebrag\Collector;
 
+use Humblebrag\Collector\Exceptions\PublicTokenMissing;
 use Humblebrag\Collector\Fees;
 
 /**
@@ -62,7 +63,12 @@ class Checkout extends CollectorObject
 		$publicToken = $publicToken ?? $this->publicToken;
 
 		if($publicToken === null) {
-			throw new CollectorException('Public token missing');
+			throw new PublicTokenMissing(
+				'Public token is requried for the script tag. ' . 
+				'It can either be added manually by calling ' . 
+				'$this->publicToken($token) or by calling send() ' .
+				'before calling this method.'
+			);
 		}
 
 		$src = Collector::$frontendUrl . '/collector-checkout-loader.js';
