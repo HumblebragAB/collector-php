@@ -41,7 +41,7 @@ class Request
 
 	protected function getSharedKey($path, $requestBody)
 	{
-		$hash = $this->username . ':' . hash("sha256", $requestBody.$path.$this->sharedAccessKey);
+		$hash = $this->username . ':' . hash("sha256", json_encode($requestBody, JSON_UNESCAPED_SLASHES).$path.$this->sharedAccessKey);
 
 		return 'SharedKey ' . base64_encode($hash);
 	}
