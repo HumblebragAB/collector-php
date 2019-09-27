@@ -31,6 +31,8 @@ use Humblebrag\Collector\Fees;
 
 class Checkout extends CollectorObject
 {
+	public $publicToken;
+
 	protected function __construct($values)
 	{
 		parent::__construct($values);
