@@ -74,7 +74,7 @@ class Checkout extends CollectorObject
 
 		$src = Collector::$frontendUrl . '/collector-checkout-loader.js';
 
-		return "<script src='$src' data-token='$publicToken'>";
+		return '<script src="' . $src . '" data-token="' . $publicToken. '"></script>';
 	}
 
 	public function publicToken($publicToken)
