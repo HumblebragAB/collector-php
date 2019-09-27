@@ -35,7 +35,8 @@ class Request
 
 		$this->client = new Client([
 			'handler' => $mockHandler,
-			'base_uri' => $this->baseUrl, 
+			'base_uri' => $this->baseUrl,
+			'http_errors' => false,
 			'headers' => ['Content-Type' => 'application/json']
 		]);
 	}
