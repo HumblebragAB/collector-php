@@ -40,6 +40,19 @@ class Checkout extends CollectorObject
 		$this->_values['cart'] = Cart::create();
 	}
 	
+	public function scriptTag($publicToken = null)
+	{
+		$publicToken = $publicToken ?? $this->publicToken;
+
+		if($publicToken === null) {
+			throw new CollectorException('Public token missing');
+		}
+
+		$src = Collector::$frontendUrl . '/collector-checkout-loader.js';
+
+		return "<script src='$src' data-token='$publicToken'>";
+	}
+
 	public function storeId($storeId)
 	{
 		$this->_values['storeId'] = $storeId;
