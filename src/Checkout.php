@@ -41,15 +41,14 @@ class Checkout extends CollectorObject
 
 		$data = json_decode($response->getBody()->getContents(), true);
 
-		$isError = $data['error'] !== null;
-
-		if($isError) {
+		if($data['error'] !== null) {
 			return [$response, $data['error'], true];
 		}
 
 		$this->publicToken = $data['data']['publicToken'];
+		$this->privateId = $data['data']['privateId'];
 
-		return [$response, $data['data'], $isError];
+		return [$response, $data['data'], false];
 	}
 
 	public function info($storeId, $privateId)
