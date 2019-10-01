@@ -13,20 +13,18 @@ class Collector
 	const MODE_TEST = 'test';
 	const MODE_LIVE = 'live';
 
-	public static $sharedAccessKey;
-	public static $username;
 	public static $backendUrl = Collector::TESTING_BACKEND;
 	public static $frontendUrl = Collector::TESTING_FRONTEND;
 
-	public static function setSharedAccessKey($key)
-	{
-		self::$sharedAccessKey = $key;
-	}
-
-	public static function setUsername($username)
-	{
-		self::$username = $username;
-	}
+	public static $sharedAccessKey;
+	public static $username;
+	public static $storeId;
+	public static $countryCode;
+	public static $merchantTermsUri;
+	public static $notificationUri;
+	public static $redirectPageUri;
+	public static $validationUri;
+	public static $profileName;
 
 	public static function setMode($mode = self::MODE_TEST)
 	{
@@ -44,7 +42,9 @@ class Collector
 		return [
 			'sharedAccessKey' => self::$sharedAccessKey,
 			'username' => self::$username,
-			'baseUrl' => self::$baseUrl
+			'baseUrl' => self::$baseUrl,
+			'storeId' => self::$storeId,
+			'countryCode' => self::$countryCode,
 		];
 	}
 
@@ -53,5 +53,10 @@ class Collector
 		foreach($settings as $key => $value) {
 			self::$$key = $value;
 		}
+	}
+
+	public static function init($settings = [])
+	{
+		self::setSettings($settings);
 	}
 }
