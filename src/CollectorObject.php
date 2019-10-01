@@ -2,9 +2,13 @@
 
 namespace Humblebrag\Collector;
 
+use Humblebrag\Collector\Exceptions\ValidationException;
+
 class CollectorObject implements \ArrayAccess, \Countable, \JsonSerializable
 {
 	protected $_values;
+    protected $_castFields = [];
+    protected $_requiredFields = [];
 
     protected function __construct($values)
     {
@@ -16,6 +20,28 @@ class CollectorObject implements \ArrayAccess, \Countable, \JsonSerializable
     public static function create($values = [])
     {
         return new static($values);
+    }
+
+    public function validate()
+    {
+        foreach($this->_requiredFields as $key) {
+            if(!isset($this->_values[$key])  || $this->_values[$key] === null) {
+                throw new ValidationException(get_class($this) . "->$key is a required field to submit the checkout.");
+            }
+
+            if($this->_values[$key] instanceof CollectorObject) {
+                ($this->_values[$key])->validate();
+            }
+        }
+    }
+
+    public function castFields()
+    {
+        foreach($this->_castFields as $key => $value) {
+            if(isset($this->_values[$key]) && !($this->_values[$key] instanceof $value)) {
+                $this->_values[$key] = $value::create($this->_values[$key]);
+            }
+        }
     }
 
     public function offsetSet($offset, $value) {
