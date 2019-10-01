@@ -35,8 +35,33 @@ class Checkout extends CollectorObject
 	public $publicToken;
 	public $privateId;
 
+	protected $_requiredFields = ['countryCode', 'merchantTermsUri', 'notificationUri', 'cart'];
+	protected $_castFields = ['cart' => Cart::class];
+
+	public function fillSettingsFromBase()
+	{
+		$this->_values['countryCode'] = $this->_values['countryCode'] ?? Collector::$countryCode;
+		$this->_values['merchantTermsUri'] = $this->_values['merchantTermsUri'] ?? Collector::$merchantTermsUri;
+		$this->_values['notificationUri'] = $this->_values['notificationUri'] ?? Collector::$notificationUri;
+		$this->_values['redirectPageUri'] = $this->_values['redirectPageUri'] ?? Collector::$redirectPageUri;
+		$this->_values['validationUri'] = $this->_values['validationUri'] ?? Collector::$validationUri;
+		$this->_values['profileName'] = $this->_values['profileName'] ?? Collector::$profileName;
+
+		foreach($this->_values as $key => $value) {
+			if($value === null) {
+				unset($this->_values[$key]);
+			}
+		}
+	}
+
 	public function send()
 	{
+		$this->fillSettingsFromBase();
+
+		$this->castFields();
+
+		$this->validate();
+
 		$response = Request::get()->request('/checkout', 'POST', $this);
 
 		$data = json_decode($response->getBody()->getContents(), true);
