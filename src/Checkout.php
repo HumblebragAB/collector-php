@@ -165,4 +165,11 @@ class Checkout extends CollectorObject
 
 		return $this;
 	}
+
+	public function addItem($item)
+	{
+		$this->getCart()->addItem($item);
+
+		return $this;
+	}
 }
