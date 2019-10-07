@@ -6,7 +6,7 @@ use Humblebrag\Collector\Exceptions\ValidationException;
 
 class CollectorObject implements \ArrayAccess, \Countable, \JsonSerializable
 {
-	protected $_values;
+	protected $_values = [];
     protected $_castFields = [];
     protected $_requiredFields = [];
 
