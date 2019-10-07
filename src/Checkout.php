@@ -2,6 +2,7 @@
 
 namespace Humblebrag\Collector;
 
+use Humblebrag\Collector\Exceptions\DuplicateItemException;
 use Humblebrag\Collector\Exceptions\PublicTokenMissing;
 use Humblebrag\Collector\Fees;
 
@@ -101,58 +102,62 @@ class Checkout extends CollectorObject
 		return '<script src="' . $src . '" data-token="' . $publicToken. '"></script>';
 	}
 
-
-	public function merchantTermsUri($merchantTermsUri)
-	{
-		$this->_values['merchantTermsUri'] = $merchantTermsUri;
-
-		return $this;
-	}
-
-	public function notificationUri($notificationUri)
-	{
-		$this->_values['notificationUri'] = $notificationUri;
-
-		return $this;
-	}
-
-	public function validationUri($validationUri)
-	{
-		$this->_values['validationUri'] = $validationUri;
-
-		return $this;
-	}
-
-	public function profileName($profileName)
-	{
-		$this->_values['profileName'] = $profileName;
-
-		return $this;
-	}
-
 	public function getCart()
 	{
-		$cart = $this->_values['cart'];
-		return $cart instanceof Cart ? $cart : Cart::create($cart);
+		if(isset($this->_values['cart'])) {
+			$cart = $this->_values['cart'];
+
+			if(!($cart instanceof Cart)) {
+				$cart = $this->_values['cart'] = Cart::create($cart);
+			}
+		} else {
+			$cart = $this->_values['cart'] = Cart::create([]);
+		}
+
+		return $cart;
 	}
 
-	public function fees($fees)
+	public function getFees()
 	{
-		$this->_values['fees'] = $fees;
+		if(isset($this->_values['fees'])) {
+			$fees = $this->_values['fees'];
 
-		return $this;
-	}
+			if(!($fees instanceof Fees)) {
+				$fees = $this->_values['fees'] = Fees::create($fees);
+			}
+		} else {
+			$fees = $this->_values['fees'] = Fees::create([]);
+		}
 
-	public function customer($customer)
-	{
-		$this->_values['customer'] = $customer;
-
-		return $this;
+		return $fees;
 	}
 
 	public function addItem($item)
 	{
+		if($this->getFees()->hasItem($item)) {
+			throw new DuplicateItemException(
+				'Tried to add an item with id ' . $item->id .
+				' and description ' . $item->description .
+				', but a fee with the same id and description already exists'
+			);
+		}
+
 		$this->getCart()->addItem($item);
+
+		return $this;
+	}
+
+	public function addFee($fee, $type)
+	{
+		if($this->getCart()->hasItem($fee)) {
+			throw new DuplicateItemException(
+				'Tried to add a fee with id ' . $fee->id .
+				' and description ' . $fee->description .
+				', but a fee with the same id and description already exists'
+			);
+		}
+
+		$this->getFees()->addFee($fee, $type);
 
 		return $this;
 	}
