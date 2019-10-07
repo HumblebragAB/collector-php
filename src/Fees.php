@@ -2,6 +2,7 @@
 
 namespace Humblebrag\Collector;
 
+use Humblebrag\Collector\Fees\Fee;
 use Humblebrag\Collector\Fees\Shipping;
 
 /**
@@ -20,17 +21,21 @@ use Humblebrag\Collector\Fees\Shipping;
 
 class Fees extends CollectorObject
 {
-	public function setShipping(Shipping $shipping)
+	public function addFee(Fee $fee, $type)
 	{
-		$this->_values['shipping'] = $shipping;
+		$this->_values[$type] = $fee;
 
 		return $this;
 	}
 
-	public function setDirectInvoiceNotification(DirectInvoiceNotification $directInvoiceNotification)
+	public function hasItem($item)
 	{
-		$this->_values['directinvoicenotification'] = $directInvoiceNotification;
+		foreach($this->_values as $existingItem) {
+			if($existingItem->id . $existingItem->description === $item->id . $item->description) {
+				return true;
+			}
+		}
 
-		return $this;
+		return false;
 	}
 }
