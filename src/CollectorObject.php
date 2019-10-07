@@ -25,14 +25,20 @@ class CollectorObject implements \ArrayAccess, \Countable, \JsonSerializable
     public function validate()
     {
         foreach($this->_requiredFields as $key) {
-            if(!isset($this->_values[$key])  || $this->_values[$key] === null) {
-                throw new ValidationException(get_class($this) . "->$key is a required field to submit the checkout.");
+            if(!isset($this->_values[$key]) || $this->_values[$key] === null) {
+                throw new ValidationException(
+                    get_class($this) . "->$key is a required" .
+                    ' field to submit the checkout.' .
+                    'Hint: ' . implode(',', $this->_requiredFields) .
+                    ' are all required fields.'
+                );
             }
 
             if($this->_values[$key] instanceof CollectorObject) {
                 ($this->_values[$key])->validate();
             }
         }
+
     }
 
     public function castFields()
