@@ -2,6 +2,8 @@
 
 namespace Humblebrag\Collector;
 
+use Humblebrag\Collector\Exceptions\DuplicateItemException;
+
 class Cart extends CollectorObject
 {
 	protected function __construct($values)
@@ -13,8 +15,32 @@ class Cart extends CollectorObject
 
 	public function addItem(CartItem $item)
 	{
+		if($this->hasItem($item)) {
+			throw new DuplicateItemException(
+				'An item with id ' . $item->id .
+				' and description ' . $item->description .
+				' already exists'
+			);
+		}
+
 		$this->_values['items'][] = $item;
 
 		return $this;
+	}
+
+	public function getItems()
+	{
+		return $this->_values['items'];
+	}
+
+	public function hasItem($item)
+	{
+		foreach($this->_values['items'] as $existingItem) {
+			if($existingItem->id . $existingItem->description === $item->id . $item->description) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
