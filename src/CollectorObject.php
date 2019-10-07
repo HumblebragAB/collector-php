@@ -44,6 +44,21 @@ class CollectorObject implements \ArrayAccess, \Countable, \JsonSerializable
         }
     }
 
+    public function __set($k, $v)
+    {
+        $this->_values[$k] = $v;
+    }
+
+    public function &__get($k)
+    {
+        return $this->_values[$k];
+    }
+
+    public function __isset($k)
+    {
+        return $this->_values[$k];
+    }
+
     public function offsetSet($offset, $value) {
         if (is_null($offset)) {
             $this->_values[] = $value;
