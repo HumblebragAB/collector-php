@@ -3,7 +3,9 @@
 namespace Humblebrag\Collector;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\Response;
 
 class Request
@@ -21,17 +23,32 @@ class Request
 
 		$mockHandler = new MockHandler();
 
-		$mockHandler->append(new \GuzzleHttp\Psr7\Response(200, [], json_encode(
-			[
-			  "id" => "91714012-6ae9-4780-a927-fe459bc95bf6",
-			  "data" => [
-			    "privateId" => "1eec44b5-66d3-4058-a31f-3444229fb727",
-			    "publicToken" => "public-SE-7f1b3d2a2a73d348dfbd17d3965ff1458c249f84c695eac1",
-			    "expiresAt" => "2017-12-07T07:16:49.8098107+00:00"
-			  ],
-			  "error" => null
+		// $mockHandler->append(new \GuzzleHttp\Psr7\Response(200, [], json_encode(
+		// 	[
+		// 	  "id" => "91714012-6ae9-4780-a927-fe459bc95bf6",
+		// 	  "data" => [
+		// 	    "privateId" => "1eec44b5-66d3-4058-a31f-3444229fb727",
+		// 	    "publicToken" => "public-SE-7f1b3d2a2a73d348dfbd17d3965ff1458c249f84c695eac1",
+		// 	    "expiresAt" => "2017-12-07T07:16:49.8098107+00:00"
+		// 	  ],
+		// 	  "error" => null
+		// 	]
+		// )));
+
+		$mockHandler->append(new Response(400, [], json_encode([
+			"id" => "1da39a61-d3e1-4da5-a1a0-7a315ea66d2f",
+			"data" => null,
+			"error" => [
+				"code" => 400,
+				"message" => "Bad or faulty request. Please examine the errors property for details.",
+				"errors" => [
+					[
+						"reason" => "Store_Invalid",
+						"message" => "Invalid store id or country code."
+					]
+				]
 			]
-		)));
+		])));
 
 		$this->client = new Client([
 			'handler' => $mockHandler,
