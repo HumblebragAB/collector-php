@@ -42,7 +42,8 @@ class Collector
 		return [
 			'sharedAccessKey' => self::$sharedAccessKey,
 			'username' => self::$username,
-			'baseUrl' => self::$baseUrl,
+			'backendUrl' => self::$backendUrl,
+			'frontendUrl' => self::$frontendUrl,
 			'storeId' => self::$storeId,
 			'countryCode' => self::$countryCode,
 		];
