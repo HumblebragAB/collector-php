@@ -101,47 +101,6 @@ class Checkout extends CollectorObject
 		return '<script src="' . $src . '" data-token="' . $publicToken. '"></script>';
 	}
 
-	public function publicToken($publicToken)
-	{
-		$this->publicToken = $publicToken;
-
-		return $this;
-	}
-
-	public function privateId($privateId)
-	{
-		$this->privateId = $privateId;
-
-		return $this;
-	}
-
-	public function storeId($storeId)
-	{
-		$this->_values['storeId'] = $storeId;
-
-		return $this;
-	}
-
-	public function countryCode($countryCode)
-	{
-		$this->_values['countryCode'] = $countryCode;
-
-		return $this;
-	}
-
-	public function reference($reference)
-	{
-		$this->_values['reference'] = $reference;
-
-		return $this;
-	}
-
-	public function redirectPageUri($redirectPageUri)
-	{
-		$this->_values['redirectPageUri'] = $redirectPageUri;
-
-		return $this;
-	}
 
 	public function merchantTermsUri($merchantTermsUri)
 	{
