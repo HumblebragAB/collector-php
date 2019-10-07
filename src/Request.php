@@ -8,10 +8,10 @@ use GuzzleHttp\Psr7\Response;
 
 class Request
 {
-	protected $baseUrl;
-	protected $username;
-	protected $sharedAccessKey;
-	protected $client;
+	public $baseUrl;
+	public $username;
+	public $sharedAccessKey;
+	public $client;
 
 	protected function __construct($baseUrl = '', $sharedAccessKey = '', $username = '')
 	{
