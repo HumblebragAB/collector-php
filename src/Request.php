@@ -55,9 +55,11 @@ class Request
 		return $this->client->request($method, $path, $options + ['json' => $body]);
 	}
 
-	protected function getSharedKey($path, $requestBody)
+	public function getSharedKey($path, $requestBody)
 	{
-		$hash = $this->username . ':' . hash("sha256", json_encode($requestBody, JSON_UNESCAPED_SLASHES).$path.$this->sharedAccessKey);
+		$requestBody = is_string($requestBody) ? $requestBody : json_encode($requestBody, JSON_UNESCAPED_SLASHES);
+
+		$hash = $this->username . ':' . hash("sha256", $requestBody.$path.$this->sharedAccessKey);
 
 		return 'SharedKey ' . base64_encode($hash);
 	}
