@@ -20,7 +20,7 @@ class CheckoutTest extends TestCase
 		$checkout->scriptTag();
 	}
 
-	public function test_script_contains_src_with_frontend_url_and_token()
+	public function test_script_contains_src_with_frontend_url()
 	{
 		$checkout = Checkout::create();
 
@@ -29,7 +29,28 @@ class CheckoutTest extends TestCase
 		$script = $checkout->scriptTag($token);
 
 		$this->assertStringContainsString(Collector::$frontendUrl . '/collector-checkout-loader.js', $script);
-		$this->assertStringContainsString('data-token="' . $token . '"', $script);
+	}
+
+	public function test_script_contains_attribute_fields()
+	{
+		$checkout = Checkout::create();
+
+		$token = 'sometoken';
+
+		$settings = [
+			'data-lang' => 'en-SE',
+			'data-padding' => 'none',
+			'data-container-id' => 'an-id-for-container',
+			'data-action-color' => '#ff00ff',
+			'data-action-text-color' => '#ffffff'
+		];
+
+		$script = $checkout->scriptTag($token, $settings);
+
+		foreach($settings as $key => $value) {
+			$this->assertStringContainsString($key, $script);
+			$this->assertStringContainsString($value, $script);
+		}
 	}
 
 	public function test_fills_settings_from_collector()

@@ -84,7 +84,7 @@ class Checkout extends CollectorObject
 		return $response;
 	}
 
-	public function scriptTag($publicToken = null)
+	public function scriptTag($publicToken = null, $settings = [])
 	{
 		$publicToken = $publicToken ?? $this->publicToken;
 
@@ -97,9 +97,19 @@ class Checkout extends CollectorObject
 			);
 		}
 
+		$settings['data-token'] = $publicToken;
+
+		$settingsString = [];
+
+		foreach($settings as $key => $value) {
+			$settingsString[] = "$key='$value'";
+		}
+
+		$settings = implode(" ", $settingsString);
+
 		$src = Collector::$frontendUrl . '/collector-checkout-loader.js';
 
-		return '<script src="' . $src . '" data-token="' . $publicToken. '"></script>';
+		return "<script src='$src' $settings></script>";
 	}
 
 	public function getCart()
