@@ -109,7 +109,7 @@ class Checkout extends CollectorObject
 
 		$src = Collector::$frontendUrl . '/collector-checkout-loader.js';
 
-		return "<script src='$src' $settings></script>";
+		return "<script type='application/javascript' src='$src' $settings></script>";
 	}
 
 	public function getCart()
