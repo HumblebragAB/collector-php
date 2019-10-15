@@ -80,9 +80,9 @@ class Checkout extends CollectorObject
 
 	public function info($storeId, $privateId)
 	{
-		$response = Request::get()->request('/merchants/'.$storeId.'/checkouts/'.$privateId);
+		$response = Request::get()->request('/merchants/'.$storeId.'/checkouts/'.$privateId, 'GET', '');
 
-		return $response;
+		return json_decode($response->getBody()->getContents(), true);
 	}
 
 	public function scriptTag($publicToken = null, $settings = [])
