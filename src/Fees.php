@@ -21,7 +21,7 @@ use Humblebrag\Collector\Fees\Shipping;
 
 class Fees extends CollectorObject
 {
-	public function addFee(Fee $fee, $type)
+	public function addFee($fee, $type)
 	{
 		$this->_values[$type] = $fee;
 
