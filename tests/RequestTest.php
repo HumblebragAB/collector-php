@@ -1,5 +1,6 @@
 <?php
 
+use Humblebrag\Collector\Checkout;
 use Humblebrag\Collector\Collector;
 use Humblebrag\Collector\Request;
 use PHPUnit\Framework\TestCase;
@@ -13,6 +14,44 @@ class RequestTest extends TestCase
 		$sharedAccessKey = 'mySharedKey';
 
 		$requestBody = '{"storeId":123,"countryCode":"SE","reference":"123456789","notificationUri":"http://backend-api-notification-uri.com","redirectPageUri":"http://purchase-completed-confirmation-page.com","merchantTermsUri":"http://merchant-purchase-terms.com","cart":{"items":[{"id":1,"description":"Someproduct","unitPrice":200,"quantity":1,"vat":20}]}}';
+
+		$shouldBe = 'SharedKey bXlVc2VybmFtZTpmNTJiYzE3YmIyNWFmOWYzMzVlY2M2MjhjOWY0N2RiNGMwNTdmY2ZhYmVlYzRjM2Y0ZDRiMjRiMTU2N2QwYWNk';
+
+		Collector::init([
+			'username' => $username,
+			'sharedAccessKey' => $sharedAccessKey
+		]);
+
+		$actual = Request::get()->getSharedKey($path, $requestBody);
+
+		$this->assertEquals($shouldBe, $actual);
+	}
+
+	public function test_shared_key_is_correctly_computed_for_checkout_object()
+	{
+		$path = '/checkout';
+		$username = 'myUsername';
+		$sharedAccessKey = 'mySharedKey';
+
+		$requestBody = Checkout::create([
+			'storeId' => 123,
+			'countryCode' => 'SE',
+			'reference' => '123456789',
+			'notificationUri' => 'http://backend-api-notification-uri.com',
+			'redirectPageUri' => 'http://purchase-completed-confirmation-page.com',
+			'merchantTermsUri' => 'http://merchant-purchase-terms.com',
+			'cart' => [
+				'items' => [
+					[
+						"id" => 1,
+						"description" => "Someproduct",
+						"unitPrice" => 200,
+						"quantity" => 1,
+						"vat" => 20
+					]
+				]
+			]
+		]);
 
 		$shouldBe = 'SharedKey bXlVc2VybmFtZTpmNTJiYzE3YmIyNWFmOWYzMzVlY2M2MjhjOWY0N2RiNGMwNTdmY2ZhYmVlYzRjM2Y0ZDRiMjRiMTU2N2QwYWNk';
 
