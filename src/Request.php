@@ -23,7 +23,7 @@ class Request
 
 		$this->client = new Client([
 			'base_uri' => $this->baseUrl,
-			'http_errors' => false,
+			'http_errors' => true,
 			'headers' => ['Content-Type' => 'application/json']
 		]);
 	}
