@@ -52,6 +52,11 @@ class Collector
 	public static function setSettings($settings = [])
 	{
 		foreach($settings as $key => $value) {
+			if($key === 'mode') {
+				self::setMode($value);
+				continue;
+			}
+			
 			self::$$key = $value;
 		}
 	}

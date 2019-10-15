@@ -41,4 +41,14 @@ class CollectorTest extends TestCase
 		$this->assertEquals(Collector::TESTING_BACKEND, Collector::$backendUrl);
 		$this->assertEquals(Collector::TESTING_FRONTEND, Collector::$frontendUrl);
 	}
+
+	public function test_setting_mode_from_init()
+	{
+		Collector::init([
+			'mode' => Collector::MODE_LIVE
+		]);
+
+		$this->assertEquals(COllector::LIVE_BACKEND, Collector::$backendUrl);
+		$this->assertEquals(Collector::LIVE_FRONTEND, Collector::$frontendUrl);
+	}
 }
