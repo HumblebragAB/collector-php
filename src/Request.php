@@ -39,7 +39,11 @@ class Request
 
 		$options['headers']['Authorization'] = $sharedKey;
 
-		return $this->client->request($method, $path, $options + ['json' => $body]);
+		if($method !== 'GET') {
+			return $this->client->request($method, $path, $options + ['body' => json_encode($body, JSON_UNESCAPED_SLASHES)]);
+		}
+
+		return $this->client->request($method, $path, $options);
 	}
 
 	public function getSharedKey($path, $requestBody)
