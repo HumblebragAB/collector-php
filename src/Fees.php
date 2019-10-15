@@ -30,7 +30,9 @@ class Fees extends CollectorObject
 
 	public function hasItem($item)
 	{
+		$item = (object) $item;
 		foreach($this->_values as $existingItem) {
+			$existingItem = (object) $existingItem;
 			if($existingItem->id . $existingItem->description === $item->id . $item->description) {
 				return true;
 			}
