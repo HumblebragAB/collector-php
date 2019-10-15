@@ -47,6 +47,7 @@ class Checkout extends CollectorObject
 		$this->_values['redirectPageUri'] = $this->_values['redirectPageUri'] ?? Collector::$redirectPageUri;
 		$this->_values['validationUri'] = $this->_values['validationUri'] ?? Collector::$validationUri;
 		$this->_values['profileName'] = $this->_values['profileName'] ?? Collector::$profileName;
+		$this->_values['storeId'] = (int) ($this->_values['storeId'] ?? Collector::$storeId);
 
 		foreach($this->_values as $key => $value) {
 			if($value === null) {
